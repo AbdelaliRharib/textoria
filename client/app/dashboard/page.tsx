@@ -637,8 +637,9 @@ export default function DashboardPage() {
                                      alt="Generated" 
                                      className="w-full h-32 object-cover rounded border border-gray-200"
                                      onError={(e) => {
-                                       e.target.onerror = null;
-                                       e.target.src = 'https://via.placeholder.com/400x300/4F46E5/FFFFFF?text=Generated+Image';
+                                       const target = e.target as HTMLImageElement;
+                                       target.onerror = null;
+                                       target.src = 'https://via.placeholder.com/400x300/4F46E5/FFFFFF?text=Generated+Image';
                                      }}
                                    />
                                  )}
