@@ -223,7 +223,7 @@ export default function AdminDashboard() {
         loadData();
       } else if (action === 'edit') {
         // TODO: Implement edit plan modal
-        toast('Edit plan feature coming soon');
+        toast('Edit plan feature coming soon!');
       }
     } catch (error) {
       console.error('Plan action failed:', error);
