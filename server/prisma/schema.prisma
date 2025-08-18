@@ -1,0 +1,189 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  password      String?
+  firstName     String?
+  lastName      String?
+  avatar        String?
+  role          UserRole  @default(USER)
+  isActive      Boolean   @default(true)
+  emailVerified Boolean   @default(false)
+  githubId      String?   @unique
+  googleId      String?   @unique
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  subscription  Subscription?
+  generations   Generation[]
+  favorites     Favorite[]
+  analytics     Analytics[]
+  payments      Payment[]
+
+  @@map("users")
+}
+
+model Subscription {
+  id            String           @id @default(cuid())
+  userId        String           @unique
+  plan          SubscriptionPlan @default(FREE)
+  status        SubscriptionStatus @default(ACTIVE)
+  currentUsage  Int              @default(0)
+  monthlyLimit  Int
+  startDate     DateTime         @default(now())
+  endDate       DateTime?
+  stripeCustomerId String?
+  stripeSubscriptionId String?
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  // Relations
+  user          User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("subscriptions")
+}
+
+model Generation {
+  id            String           @id @default(cuid())
+  userId        String
+  type          GenerationType
+  category      String
+  prompt        String
+  content       String
+  imageUrl      String?
+  model         String
+  tokens        Int?
+  cost          Float?
+  status        GenerationStatus @default(COMPLETED)
+  metadata      Json?
+  createdAt     DateTime         @default(now())
+
+  // Relations
+  user          User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  favorites     Favorite[]
+
+  @@map("generations")
+}
+
+model Favorite {
+  id            String    @id @default(cuid())
+  userId        String
+  generationId  String
+  createdAt     DateTime  @default(now())
+
+  // Relations
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  generation    Generation @relation(fields: [generationId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, generationId])
+  @@map("favorites")
+}
+
+model Analytics {
+  id            String    @id @default(cuid())
+  userId        String
+  date          DateTime  @default(now())
+  textGenerations Int     @default(0)
+  imageGenerations Int    @default(0)
+  totalTokens   Int       @default(0)
+  totalCost     Float     @default(0)
+  createdAt     DateTime  @default(now())
+
+  // Relations
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("analytics")
+}
+
+model Payment {
+  id            String    @id @default(cuid())
+  userId        String
+  amount        Float
+  currency      String    @default("USD")
+  status        PaymentStatus @default(PENDING)
+  transactionId String    @unique
+  plan          SubscriptionPlan
+  paymentMethod String    @default("CARD")
+  metadata      Json?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("payments")
+}
+
+model AdminLog {
+  id            String    @id @default(cuid())
+  adminId       String
+  action        String
+  targetType    String?
+  targetId      String?
+  details       Json?
+  ipAddress     String?
+  userAgent     String?
+  createdAt     DateTime  @default(now())
+
+  @@map("admin_logs")
+}
+
+model SystemSettings {
+  id            String    @id @default(cuid())
+  key           String    @unique
+  value         String
+  description   String?
+  updatedAt     DateTime  @updatedAt
+
+  @@map("system_settings")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+  MODERATOR
+}
+
+enum SubscriptionPlan {
+  FREE
+  PREMIUM
+  ENTERPRISE
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELLED
+  EXPIRED
+  SUSPENDED
+}
+
+enum GenerationType {
+  TEXT
+  IMAGE
+}
+
+enum GenerationStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
