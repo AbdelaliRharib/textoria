@@ -128,37 +128,38 @@ export default function TextGenerationPage() {
     return true
   }
 
-  const buildPrompt = (): string => {
-    const currentForm = formData[selectedType]
-    
+    const buildPrompt = (): string => {
     switch (selectedType) {
       case 'linkedin':
+        const linkedinForm = formData.linkedin
         return `Génère un post LinkedIn professionnel avec les critères suivants :
-- Sujet principal : ${currentForm.sujetPrincipal}
-- Ton du message : ${currentForm.tonMessage}
-- Public cible : ${currentForm.publicCible}
-- Mots-clés : ${currentForm.motsCles}
+- Sujet principal : ${linkedinForm.sujetPrincipal}
+- Ton du message : ${linkedinForm.tonMessage}
+- Public cible : ${linkedinForm.publicCible}
+- Mots-clés : ${linkedinForm.motsCles}
 
 Le post doit être engageant, professionnel et optimisé pour LinkedIn.`
-      
+        
       case 'email':
+        const emailForm = formData.email
         return `Génère un email marketing avec les critères suivants :
-- Objectif de l'email : ${currentForm.objectifEmail}
-- Audience : ${currentForm.audience}
-- Offre/Produit : ${currentForm.offreProduit}
-- Call-to-action souhaité : ${currentForm.callToAction}
+- Objectif de l'email : ${emailForm.objectifEmail}
+- Audience : ${emailForm.audience}
+- Offre/Produit : ${emailForm.offreProduit}
+- Call-to-action souhaité : ${emailForm.callToAction}
 
 L'email doit être persuasif, personnalisé et orienté vers l'action.`
-      
+        
       case 'slogan':
+        const sloganForm = formData.slogan
         return `Génère un slogan de marque avec les critères suivants :
-- Nom de la marque/entreprise : ${currentForm.nomMarque}
-- Secteur d'activité : ${currentForm.secteurActivite}
-- Valeurs clés : ${currentForm.valeursCles}
-- Public cible : ${currentForm.publicCible}
+- Nom de la marque/entreprise : ${sloganForm.nomMarque}
+- Secteur d'activité : ${sloganForm.secteurActivite}
+- Valeurs clés : ${sloganForm.valeursCles}
+- Public cible : ${sloganForm.publicCible}
 
 Le slogan doit être mémorable, court et refléter l'identité de la marque.`
-      
+        
       default:
         return ''
     }
