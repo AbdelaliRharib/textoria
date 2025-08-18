@@ -38,6 +38,20 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
+// Root route for Render
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'TEXTORIA Backend API',
+    status: 'OK',
+    timestamp: new Date().toISOString(),
+    endpoints: {
+      health: '/health',
+      apiHealth: '/api/health',
+      docs: 'Check the API documentation for available endpoints'
+    }
+  });
+});
+
 // Health Check
 app.get('/health', (req, res) => {
   res.json({ 
