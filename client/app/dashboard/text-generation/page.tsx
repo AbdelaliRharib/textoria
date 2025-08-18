@@ -120,7 +120,8 @@ export default function TextGenerationPage() {
     const requiredFields = Object.keys(currentForm)
     
     for (const field of requiredFields) {
-      if (!currentForm[field as keyof typeof currentForm].trim()) {
+      const value = currentForm[field as keyof typeof currentForm]
+      if (typeof value === 'string' && !value.trim()) {
         toast.error(`Le champ "${field}" est requis`)
         return false
       }
