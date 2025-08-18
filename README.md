@@ -31,37 +31,63 @@ TEXTORIA is an AI-powered platform specialized in generating professional conten
 
 ## 🚀 Quick Start
 
-1. **Install Dependencies**
-   ```bash
-   npm run install-all
-   ```
+### **Prerequisites**
+- Node.js 18+ and npm
+- PostgreSQL database
+- OpenAI API key (for AI generation)
 
-2. **Setup Database**
-   - Install PostgreSQL
-   - Create database: `textoria`
-   - Update `.env` with database credentials
+### **1. Clone and Install**
+```bash
+git clone https://github.com/AbdelaliRharib/textoria.git
+cd textoria
+npm run install-all
+```
 
-3. **Environment Variables**
-   ```bash
-   # Backend (.env in server folder)
-   DATABASE_URL=postgresql://username:password@localhost:5432/textoria
-   JWT_SECRET=your_jwt_secret
-   OPENAI_API_KEY=your_openai_key
-   PORT=5000
+### **2. Database Setup**
+```bash
+# Install PostgreSQL (if not already installed)
+# Windows: Download from postgresql.org
+# macOS: brew install postgresql && brew services start postgresql
+# Linux: sudo apt install postgresql postgresql-contrib
 
-   # Frontend (.env.local in client folder)
-   NEXT_PUBLIC_API_URL=http://localhost:5000/api
-   ```
+# Create database
+psql -U postgres
+CREATE DATABASE textoria;
+\q
+```
 
-4. **Run Development Servers**
-   ```bash
-   npm run dev
-   ```
+### **3. Environment Configuration**
+```bash
+# Backend setup
+cd server
+npm run setup
+# This will create .env file with your OpenAI API key
 
-5. **Access Applications**
-   - Frontend: http://localhost:3000
-   - Backend API: http://localhost:5000
-   - Admin Dashboard: http://localhost:3000/admin
+# Frontend setup
+cd ../client
+# Create .env.local if needed
+echo "NEXT_PUBLIC_API_URL=http://localhost:5000/api" > .env.local
+```
+
+### **4. Database Migration**
+```bash
+cd server
+npm run db:setup
+npm run db:seed
+npm run create-admin
+```
+
+### **5. Start Development Servers**
+```bash
+# From project root
+npm run dev
+```
+
+### **6. Access Applications**
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:5000
+- **Admin Dashboard**: http://localhost:3000/admin
+- **Health Check**: http://localhost:5000/health
 
 ## 📊 Subscription Plans
 
@@ -83,10 +109,40 @@ TEXTORIA is an AI-powered platform specialized in generating professional conten
 ```
 textoria/
 ├── client/          # Next.js Frontend
+│   ├── app/         # App Router pages
+│   ├── contexts/    # React contexts
+│   └── config/      # API configuration
 ├── server/          # Express Backend
-├── database/        # Database migrations & seeds
+│   ├── routes/      # API endpoints
+│   ├── middleware/  # Auth & validation
+│   ├── prisma/      # Database schema
+│   └── config/      # Passport config
 └── docs/           # Documentation
 ```
+
+## 🚀 Deployment
+
+### **Frontend (Vercel)**
+```bash
+# Deploy to Vercel
+vercel --prod
+```
+
+### **Backend (Railway/Render)**
+```bash
+# Railway deployment
+railway up
+
+# Render deployment
+# Use render.yaml configuration
+```
+
+### **Environment Variables for Production**
+- `DATABASE_URL`: Production PostgreSQL URL
+- `JWT_SECRET`: Secure JWT secret
+- `OPENAI_API_KEY`: OpenAI API key
+- `CORS_ORIGIN`: Frontend URL
+- `NODE_ENV`: production
 
 ## 🛡️ Security Features
 
@@ -102,6 +158,25 @@ textoria/
 - Generation Analytics
 - Performance Monitoring
 - Admin Dashboard
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- OpenAI for GPT and DALL-E APIs
+- Next.js team for the amazing framework
+- Prisma for the excellent ORM
+- All contributors and users
 
 ---
 

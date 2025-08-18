@@ -116,12 +116,11 @@ export default function TextGenerationPage() {
   }
 
   const validateForm = (): boolean => {
-    const currentForm = formData[selectedType]
-    const requiredFields = Object.keys(currentForm)
-    
-    for (const field of requiredFields) {
-      const value = currentForm[field as keyof typeof currentForm]
-      if (typeof value === 'string' && !value.trim()) {
+    const currentForm = formData[selectedType] as Record<string, unknown>;
+    const entries = Object.entries(currentForm);
+
+    for (const [field, value] of entries) {
+      if (typeof value !== 'string' || value.trim().length === 0) {
         toast.error(`Le champ "${field}" est requis`)
         return false
       }
