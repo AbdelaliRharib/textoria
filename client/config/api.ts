@@ -1,9 +1,9 @@
 // API Configuration for different environments
 const getApiUrl = () => {
-  // Check if we're in production (Vercel)
+  // Check if we're in production (Netlify)
   if (process.env.NODE_ENV === 'production') {
-    // Use Railway backend URL in production
-    return process.env.NEXT_PUBLIC_API_URL || 'https://your-railway-app.railway.app';
+    // Use Render backend URL in production
+    return process.env.NEXT_PUBLIC_API_URL || 'https://textoria-backend.onrender.com';
   }
   
   // Use localhost in development
