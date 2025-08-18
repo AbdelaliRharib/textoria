@@ -428,8 +428,9 @@ export default function ImageGenerationPage() {
                     className="max-w-full h-auto rounded-lg border border-purple-200 shadow-lg"
                                          onError={(e) => {
                        console.error('Erreur de chargement de l\'image:', lastGenerated.imageUrl);
-                       e.target.onerror = null;
-                       e.target.src = `https://picsum.photos/1024/1024?random=${Date.now()}`;
+                       const target = e.target as HTMLImageElement;
+                       target.onerror = null;
+                       target.src = `https://picsum.photos/1024/1024?random=${Date.now()}`;
                      }}
                     onLoad={() => {
                       console.log('Image chargée avec succès:', lastGenerated.imageUrl);
