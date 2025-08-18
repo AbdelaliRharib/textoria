@@ -2,6 +2,7 @@ services:
   - type: web
     name: textoria-backend
     env: node
+    rootDir: server
     buildCommand: npm install && npx prisma generate
     startCommand: npm start
     envVars:
@@ -27,4 +28,3 @@ services:
         value: 900000
       - key: RATE_LIMIT_MAX_REQUESTS
         value: 100
-
