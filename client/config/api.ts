@@ -1,13 +1,7 @@
 // API Configuration for different environments
 const getApiUrl = () => {
-  // Check if we're in production (Netlify)
-  if (process.env.NODE_ENV === 'production') {
-    // Use Render backend URL in production
-    return process.env.NEXT_PUBLIC_API_URL || 'https://textoria.onrender.com';
-  }
-  
-  // Use localhost in development
-  return 'http://localhost:5000';
+  // Use environment variable or default to Render backend
+  return process.env.NEXT_PUBLIC_API_URL || 'https://textoria.onrender.com';
 };
 
 export const API_BASE_URL = getApiUrl();
