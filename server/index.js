@@ -36,6 +36,60 @@ const initializeDatabase = async () => {
   }
 };
 
+// Create admin user if it doesn't exist
+const createAdminUser = async () => {
+  try {
+    console.log('🔧 Checking for admin user...');
+    const bcrypt = require('bcryptjs');
+    
+    // Check if admin user exists
+    const existingAdmin = await prisma.user.findUnique({
+      where: { email: 'admin@textoria.com' }
+    });
+    
+    if (existingAdmin) {
+      console.log('✅ Admin user already exists');
+      return;
+    }
+    
+    // Hash password
+    const adminPassword = await bcrypt.hash('admin123', 12);
+    
+    // Create admin user
+    const adminUser = await prisma.user.create({
+      data: {
+        email: 'admin@textoria.com',
+        password: adminPassword,
+        firstName: 'Admin',
+        lastName: 'User',
+        role: 'ADMIN',
+        isActive: true,
+        emailVerified: true
+      }
+    });
+
+    // Create admin subscription
+    await prisma.subscription.create({
+      data: {
+        userId: adminUser.id,
+        plan: 'ENTERPRISE',
+        status: 'ACTIVE',
+        monthlyLimit: 100000,
+        currentUsage: 0
+      }
+    });
+
+    console.log('✅ Admin user created successfully!');
+    console.log('👤 Email: admin@textoria.com');
+    console.log('🔑 Password: admin123');
+    console.log('🎯 Role: ADMIN');
+    console.log('📊 Plan: ENTERPRISE (100,000 generations/month)');
+    
+  } catch (error) {
+    console.error('❌ Error creating admin user:', error);
+  }
+};
+
 // Middleware
 app.use(helmet());
 app.use(compression());
@@ -190,6 +244,9 @@ async function startServer() {
   try {
     // Initialize database and create tables
     await initializeDatabase();
+    
+    // Create admin user if it doesn't exist
+    await createAdminUser();
     
     const server = app.listen(PORT, '0.0.0.0', () => {
       console.log(`🚀 TEXTORIA Server running on port ${PORT}`);
