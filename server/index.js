@@ -22,8 +22,13 @@ app.use(express.urlencoded({ extended: true }));
 // CORS Configuration
 app.use(cors({
   origin: process.env.CORS_ORIGIN || ['http://localhost:3000', 'https://textoriaai.netlify.app'],
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
+
+// Handle preflight requests
+app.options('*', cors());
 
 // Passport Middleware
 app.use(passport.initialize());
