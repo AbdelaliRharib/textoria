@@ -12,6 +12,9 @@ const app = express();
 const prisma = new PrismaClient();
 const PORT = process.env.PORT || 10000;
 
+// Trust proxy for rate limiting behind load balancers
+app.set('trust proxy', 1);
+
 // Initialize database tables
 const initializeDatabase = async () => {
   try {
