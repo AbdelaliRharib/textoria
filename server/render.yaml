@@ -2,7 +2,7 @@ services:
   - type: web
     name: textoria-backend
     env: node
-    buildCommand: npm install && npx prisma generate && npx prisma db push --force-reset
+    buildCommand: npm install && npx prisma generate && npx prisma db push --force-reset && npm run create-admin
     startCommand: npx prisma db push && npm start
     envVars:
       - key: NODE_ENV
