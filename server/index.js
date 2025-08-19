@@ -12,6 +12,27 @@ const app = express();
 const prisma = new PrismaClient();
 const PORT = process.env.PORT || 10000;
 
+// Initialize database tables
+const initializeDatabase = async () => {
+  try {
+    console.log('🔗 Connecting to database...');
+    await prisma.$connect();
+    console.log('✅ Database connected successfully');
+    
+    // Try to push schema to create tables if they don't exist
+    const { execSync } = require('child_process');
+    try {
+      execSync('npx prisma db push --accept-data-loss', { stdio: 'inherit' });
+      console.log('✅ Database tables created successfully');
+    } catch (error) {
+      console.log('⚠️ Database tables might already exist or there was an issue');
+    }
+  } catch (error) {
+    console.error('❌ Database connection failed:', error);
+    process.exit(1);
+  }
+};
+
 // Middleware
 app.use(helmet());
 app.use(compression());
@@ -164,9 +185,8 @@ app.use('*', (req, res) => {
 // Database Connection and Server Start
 async function startServer() {
   try {
-    console.log('🔗 Connecting to database...');
-    await prisma.$connect();
-    console.log('✅ Database connected successfully');
+    // Initialize database and create tables
+    await initializeDatabase();
     
     const server = app.listen(PORT, '0.0.0.0', () => {
       console.log(`🚀 TEXTORIA Server running on port ${PORT}`);
