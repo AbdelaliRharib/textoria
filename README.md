@@ -1,35 +1,8 @@
-# 🚀 TEXTORIA - AI Marketing Content Generation Platform
+# TEXTORIA - AI Content Generation Platform
 
-TEXTORIA is an AI-powered platform specialized in generating professional content for LinkedIn, marketing agencies, communication companies, and digital marketing professionals. It creates high-quality text and visual content using advanced AI models like GPT-4 and DALL-E 3.
+<!-- Trigger Netlify rebuild -->
 
-## 🎯 Features
-
-### Text Generation
-- LinkedIn Posts & Professional Content
-- Email Marketing Campaigns
-- Brand Slogans & Messaging
-- Marketing Copy & Call-to-Actions
-- Business Communication Materials
-
-### Image Generation
-- Brand Logos & Visual Identity
-- Marketing Posters & Campaign Visuals
-- Social Media Graphics
-- Business Presentations
-- Digital Marketing Assets
-
-### Admin Dashboard
-- User Management, Analytics, Content Moderation
-- Subscription Management, System Monitoring
-
-## 🏗️ Architecture
-
-- **Frontend**: Next.js 14 + TypeScript + Tailwind CSS
-- **Backend**: Node.js + Express + PostgreSQL
-- **AI**: OpenAI GPT & DALL-E Integration
-- **Authentication**: JWT + OAuth
-
-## 🚀 Quick Start
+## Quick Start
 
 ### **Prerequisites**
 - Node.js 18+ and npm
