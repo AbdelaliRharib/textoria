@@ -1,6 +1,6 @@
 // API Configuration for different environments
 // Updated to use Render backend URL
-const getApiUrl = () => {
+export const getApiUrl = () => {
   // Use environment variable or default to Render backend
   const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'https://textoria.onrender.com';
   // Ensure we have the /api prefix
