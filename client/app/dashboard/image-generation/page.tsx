@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
@@ -17,6 +17,7 @@ import {
   Settings
 } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { getApiUrl } from '../../../config/api';
 
 interface ImageGenerationForm {
   description: string
@@ -151,7 +152,7 @@ export default function ImageGenerationPage() {
     try {
       const prompt = buildPrompt()
       
-      const response = await fetch('http://localhost:5000/api/generate', {
+      const response = await fetch(`${getApiUrl()}/generate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

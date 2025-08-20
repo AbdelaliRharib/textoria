@@ -1,12 +1,13 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Sparkles, Eye, EyeOff, ArrowLeft, CheckCircle } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
+import { getApiUrl } from '../../config/api';
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -277,7 +278,7 @@ export default function RegisterPage() {
             {/* Social Login Buttons */}
             <div className="space-y-3">
               <button 
-                onClick={() => window.location.href = 'http://localhost:5000/api/auth/google'}
+                onClick={() => window.location.href = `${getApiUrl()}/auth/google`}
                 className="w-full btn btn-outline"
               >
                 <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
@@ -289,7 +290,7 @@ export default function RegisterPage() {
                 Continue with Google
               </button>
               <button 
-                onClick={() => window.location.href = 'http://localhost:5000/api/auth/github'}
+                onClick={() => window.location.href = `${getApiUrl()}/auth/github`}
                 className="w-full btn btn-outline"
               >
                 <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">

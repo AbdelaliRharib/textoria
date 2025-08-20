@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { getApiUrl } from '../../config/api';
 
 interface PaymentForm {
   cardNumber: string;
@@ -41,7 +42,7 @@ export default function PaymentPage() {
 
   const createPaymentIntent = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/payments/create-payment-intent', {
+      const response = await axios.post(`${getApiUrl()}/payments/create-payment-intent`, {
         plan,
         planName
       }, {
@@ -97,7 +98,7 @@ export default function PaymentPage() {
         throw new Error('Invalid cardholder name');
       }
 
-      const response = await axios.post('http://localhost:5000/api/payments/process-payment', {
+      const response = await axios.post(`${getApiUrl()}/payments/process-payment`, {
         paymentIntentId: paymentIntent.clientSecret,
         plan,
         cardNumber: formData.cardNumber.replace(/\s/g, ''),

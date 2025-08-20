@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
@@ -15,6 +15,7 @@ import {
   CheckCircle
 } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { getApiUrl } from '../../../config/api';
 
 interface GenerationForm {
   linkedin: {
@@ -183,7 +184,7 @@ Le slogan doit être mémorable, court et refléter l'identité de la marque.`
     try {
       const prompt = buildPrompt()
       
-      const response = await fetch('http://localhost:5000/api/generate', {
+      const response = await fetch(`${getApiUrl()}/generate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

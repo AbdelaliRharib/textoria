@@ -27,6 +27,7 @@ import {
   Filter
 } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { getApiUrl } from '../../config/api';
 
 interface Generation {
   id: string
@@ -114,7 +115,7 @@ export default function DashboardPage() {
 
   const loadUserData = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/user/stats', {
+      const response = await fetch(`${getApiUrl()}/user/stats`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -130,7 +131,7 @@ export default function DashboardPage() {
 
   const loadSubscription = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/subscriptions/current', {
+      const response = await fetch(`${getApiUrl()}/subscriptions/current`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -146,7 +147,7 @@ export default function DashboardPage() {
 
   const loadGenerations = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/generations', {
+      const response = await fetch(`${getApiUrl()}/generations`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -185,7 +186,7 @@ export default function DashboardPage() {
     }, 500)
     
     try {
-      const response = await fetch('http://localhost:5000/api/generate', {
+      const response = await fetch(`${getApiUrl()}/generate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -248,7 +249,7 @@ export default function DashboardPage() {
 
   const toggleFavorite = async (generationId: string) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/generations/${generationId}/favorite`, {
+      const response = await fetch(`${getApiUrl()}/generations/${generationId}/favorite`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`

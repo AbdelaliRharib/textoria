@@ -21,6 +21,7 @@ import {
   Palette
 } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { getApiUrl } from '../../config/api';
 
 interface Plan {
   id: string
@@ -119,7 +120,7 @@ export default function SubscriptionPage() {
 
   const loadCurrentSubscription = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/subscriptions/current', {
+      const response = await fetch(`${getApiUrl()}/subscriptions/current`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }

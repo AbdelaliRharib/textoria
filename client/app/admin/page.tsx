@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { getApiUrl } from '../../config/api';
 import {
   BarChart3,
   Users,
@@ -122,7 +123,7 @@ export default function AdminDashboard() {
 
       console.log('Checking admin access with token:', token.substring(0, 20) + '...');
 
-      const response = await axios.get('http://localhost:5000/api/auth/me', {
+      const response = await axios.get(`${getApiUrl()}/auth/me`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
@@ -152,28 +153,28 @@ export default function AdminDashboard() {
       const token = localStorage.getItem('token');
 
       if (activeTab === 'overview' || activeTab === 'analytics') {
-        const analyticsResponse = await axios.get('http://localhost:5000/api/admin/analytics', {
+        const analyticsResponse = await axios.get(`${getApiUrl()}/admin/analytics`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setAnalytics(analyticsResponse.data);
       }
 
       if (activeTab === 'overview' || activeTab === 'users') {
-        const usersResponse = await axios.get('http://localhost:5000/api/admin/users', {
+        const usersResponse = await axios.get(`${getApiUrl()}/admin/users`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setUsers(usersResponse.data);
       }
 
       if (activeTab === 'overview' || activeTab === 'generations') {
-        const generationsResponse = await axios.get('http://localhost:5000/api/admin/generations', {
+        const generationsResponse = await axios.get(`${getApiUrl()}/admin/generations`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setGenerations(generationsResponse.data);
       }
 
       if (activeTab === 'subscriptions') {
-        const plansResponse = await axios.get('http://localhost:5000/api/admin/subscription-plans', {
+        const plansResponse = await axios.get(`${getApiUrl()}/admin/subscription-plans`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setSubscriptionPlans(plansResponse.data);
@@ -191,14 +192,14 @@ export default function AdminDashboard() {
       const token = localStorage.getItem('token');
       
       if (action === 'toggle-status') {
-        await axios.patch(`http://localhost:5000/api/admin/users/${userId}/toggle-status`, {}, {
+        await axios.patch(`${getApiUrl()}/admin/users/${userId}/toggle-status`, {}, {
           headers: { Authorization: `Bearer ${token}` }
         });
         toast.success('User status updated');
         loadData();
       } else if (action === 'delete') {
         if (confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
-          await axios.delete(`http://localhost:5000/api/admin/users/${userId}`, {
+          await axios.delete(`${getApiUrl()}/admin/users/${userId}`, {
             headers: { Authorization: `Bearer ${token}` }
           });
           toast.success('User deleted successfully');
@@ -216,7 +217,7 @@ export default function AdminDashboard() {
       const token = localStorage.getItem('token');
       
       if (action === 'toggle-status') {
-        await axios.patch(`http://localhost:5000/api/admin/subscription-plans/${planId}/toggle-status`, {}, {
+        await axios.patch(`${getApiUrl()}/admin/subscription-plans/${planId}/toggle-status`, {}, {
           headers: { Authorization: `Bearer ${token}` }
         });
         toast.success('Plan status updated');

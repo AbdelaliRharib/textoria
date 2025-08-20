@@ -15,6 +15,7 @@ import {
   Star
 } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { getApiUrl } from '../../config/api';
 
 interface UserData {
   id: string
@@ -82,7 +83,7 @@ export default function ProfilePage() {
 
   const loadUserData = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/auth/me', {
+      const response = await fetch(`${getApiUrl()}/auth/me`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
